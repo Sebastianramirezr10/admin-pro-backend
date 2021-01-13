@@ -1,5 +1,5 @@
 const express = require("express");
-const { dbConnection } = require("./DataBase/config");
+const { dbConnection } = require("./dataBase/config");
 const cors = require("cors");
 require("dotenv").config();
 
@@ -11,13 +11,12 @@ dbConnection();
 //configurar CORS
 app.use(cors());
 
+//Lectura y paseo del body
+app.use(express.json());
+
 //rutas
-app.get("/", (req, res) => {
-  res.json({
-    ok: true,
-    msg: "Hola Mundo",
-  });
-});
+app.use("/api/usuarios", require("./routes/usuarios"));
+app.use("/api/login", require("./routes/auth"));
 
 app.listen(process.env.PORT, () => {
   console.log("Servidor Çorriendo en " + process.env.PORT);
